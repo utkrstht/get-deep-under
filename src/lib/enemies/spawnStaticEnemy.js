@@ -6,10 +6,11 @@ export function spawnStaticEnemy() {
         k.anchor("center"),
         k.sprite("sigma"),
         k.offscreen({ destroy: true }),
+        k.area(),
     ]);
 
     enemy.onUpdate(() => {
-        enemy.move(0, -100 * k.dt());
+        enemy.move(0, -5000 * k.dt());
     });
 
     enemy.onCollide("submarine", () => {
