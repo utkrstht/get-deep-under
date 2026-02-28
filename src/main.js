@@ -7,12 +7,12 @@ export const submarine = k.add([k.pos(120, 80), k.sprite("submarine")]);
 
 import { movement } from "./lib/movement.js";
 import { loadEnemies } from "./lib/enemies/loadEnemies.js";
+import { loadHUD } from "./lib/hud.js";
 movement();
 loadEnemies();
+loadHUD();
 
-import { game } from "./store.js";
+import { gameState } from "./store.js";
 k.onUpdate(() => {
-    game.level += 0.1;
-
-    console.log(Math.floor(game.level));
+    gameState.level += 0.1;
 });

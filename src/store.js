@@ -1,1 +1,1 @@
-export let game = { level: 0 };
+export let gameState = { level: 0 };
