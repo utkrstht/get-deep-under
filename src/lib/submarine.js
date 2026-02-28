@@ -8,5 +8,6 @@ export function createSubmarine() {
         k.pos(k.width() / 2, 300),
         k.anchor("center"),
         k.sprite("submarine"),
+        submarine
     ]);
 }
