@@ -4,7 +4,7 @@ export function spawnStaticEnemy() {
     let enemy = k.add([
         k.pos(Math.random() * (k.width() - 200) + 100, k.height() + 10),
         k.anchor("center"),
-        k.sprite("sigma"),
+        k.sprite("mine"),
         k.offscreen({ destroy: true }),
         k.area(),
     ]);

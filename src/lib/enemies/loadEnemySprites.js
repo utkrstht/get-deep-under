@@ -1,5 +1,5 @@
 import { k } from "../../main.js";
 
 export function loadEnemySprites() {
-    k.loadSprite("sigma", "sprites/submarine.png");
+    k.loadSprite("mine", "sprites/mine.png");
 }
