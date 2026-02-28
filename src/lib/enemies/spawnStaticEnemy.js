@@ -1,20 +1,44 @@
 import { k } from "../../main.js";
+import { showDeathScreen } from "../deathScreen.js"; // Import death screen
 
 export function spawnStaticEnemy() {
     let enemy = k.add([
         k.pos(Math.random() * (k.width() - 200) + 100, k.height() + 10),
         k.anchor("center"),
         k.sprite("mine"),
-        k.offscreen({ destroy: true }),
         k.area(),
+        k.offscreen({ destroy: true }),
+        "enemy",
     ]);
 
     enemy.onUpdate(() => {
-        enemy.move(0, -5000 * k.dt());
+        enemy.move(0, -100);
     });
 
-    enemy.onCollide("submarine", () => {
+    enemy.onCollide("submarine", (sub) => {
+        const explosionPos = enemy.pos.clone();
+        
         k.destroy(enemy);
-        alert("lost");
+        k.destroy(sub);
+        
+        const explosion = k.add([
+            k.pos(explosionPos),
+            k.anchor("center"), 
+            k.sprite("explosion_1"),
+            k.scale(2),
+        ]);
+
+        let frame = 1;
+        const cancelAnim = k.loop(0.1, () => {
+            frame++;
+            if (frame <= 10) {
+                explosion.use(k.sprite(`explosion_${frame}`));
+            } else {
+                cancelAnim.cancel(); 
+                k.destroy(explosion);
+                
+                showDeathScreen("mine");
+            }
+        });
     });
 }
