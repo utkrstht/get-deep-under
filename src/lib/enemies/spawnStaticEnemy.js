@@ -1,5 +1,6 @@
 import { k } from "../../main.js";
 import { showDeathScreen } from "../deathScreen.js"; // Import death screen
+import { gameState } from "../../store.js";
 
 export function spawnStaticEnemy() {
     let enemy = k.add([
@@ -12,6 +13,7 @@ export function spawnStaticEnemy() {
     ]);
 
     enemy.onUpdate(() => {
+        if (gameState.isGameOver) return;
         enemy.move(0, -100);
     });
 

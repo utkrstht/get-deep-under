@@ -36,6 +36,8 @@ export function movement() {
     const deceleration = 200;
 
     k.onUpdate(() => {
+        if (gameState.isGameOver) return;
+
         // Update depth
         gameState.level += DEPTH_PER_SEC * k.dt();
         depthLabel.text = `Depth: ${Math.floor(gameState.level)} ft`;
@@ -66,5 +68,9 @@ export function movement() {
         if (velX < -maxSpeed) velX = -maxSpeed;
 
         submarine.move(velX, 0);
+
+        // Screen boundaries
+        if (submarine.pos.x < 30) submarine.pos.x = 30; // Half sprite width
+        if (submarine.pos.x > k.width() - 30) submarine.pos.x = k.width() - 30;
     });
 }
