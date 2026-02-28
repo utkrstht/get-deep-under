@@ -2,17 +2,16 @@ import kaplay from "kaplay";
 export const k = kaplay();
 k.loadRoot("./");
 
-k.loadSprite("submarine", "sprites/submarine.png");
-export const submarine = k.add([k.pos(120, 80), k.sprite("submarine")]);
-
+import { createSubmarine } from "./lib/submarine.js";
 import { movement } from "./lib/movement.js";
-import { loadEnemies } from "./lib/enemies/loadEnemies.js";
+import { enemySpawningTick } from "./lib/enemies/enemySpawningTick.js";
 import { loadHUD } from "./lib/hud.js";
+createSubmarine();
 movement();
-loadEnemies();
+enemySpawningTick();
 loadHUD();
 
 import { gameState } from "./store.js";
 k.onUpdate(() => {
-    gameState.level += 0.1;
+    gameState.level += 5 * k.dt();
 });

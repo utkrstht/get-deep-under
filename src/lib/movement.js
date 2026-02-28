@@ -1,11 +1,12 @@
-import { submarine, k } from "../main.js";
+import { k } from "../main.js";
+import { submarine } from "./submarine.js";
 
 export function movement() {
     let velX = 0;
 
-    const maxSpeed = 150;
-    const acceleration = 100;
-    const deceleration = 40;
+    const maxSpeed = 200;
+    const acceleration = 200;
+    const deceleration = 30;
 
     k.onUpdate(() => {
         let moving = false;
