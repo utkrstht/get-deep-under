@@ -6,8 +6,8 @@ k.loadSprite("submarine", "sprites/submarine.png");
 export const submarine = k.add([k.pos(120, 80), k.sprite("submarine")]);
 
 import { movement } from "./lib/movement.js";
-movement();
 import { loadEnemies } from "./lib/enemies/loadEnemies.js";
+movement();
 loadEnemies();
 
 import { game } from "./store.js";
