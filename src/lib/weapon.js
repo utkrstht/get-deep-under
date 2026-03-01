@@ -94,6 +94,9 @@ export function weapon() {
 function explode(bombObj) {
     if (!bombObj.exists()) return; 
 
+    // Sound Effect
+    k.play("explosion");
+
     const explosionPos = bombObj.pos;
     k.destroy(bombObj);
     
@@ -127,6 +130,9 @@ function explode(bombObj) {
             hitCount++;
             k.destroy(enemy);
             
+            // Explosion Sound for chain reaction
+            k.play("explosion", { volume: 0.5, detune: k.rand(-100, 100) }); // Slightly varied pitch/volume
+
             // Chain explosion visual
             const chainExplosion = k.add([
                 k.pos(enemy.pos),

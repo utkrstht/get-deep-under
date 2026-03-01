@@ -13,6 +13,11 @@ export const k = kaplay({
 });
 k.loadRoot("./");
 k.loadSprite("main_menu_bg", "sprites/main_menu.png");
+// Preload crucial sprites
+k.loadSprite("parin", "sprites/parin.png"); 
+k.loadSound("bg", "sfx/bg.mp3");
+k.loadSound("explosion", "sfx/explosion.mp3");
+k.loadSound("gameover", "sfx/gameover.mp3");
 
 k.scene("menu", () => {
     const bg = k.add([
@@ -76,6 +81,17 @@ k.scene("menu", () => {
 
 // Game Scene
 k.scene("game", () => {
+    // Play Background Sound (looping)
+    k.bgMusic = k.play("bg", {
+        loop: true,
+        volume: 0.5,
+    });
+
+    // Make sure music stops when leaving scene or dying ( handled in deathScreen )
+    k.onSceneLeave(() => {
+        if (k.bgMusic) k.bgMusic.paused = true; 
+    });
+
     resetGameState();
     createSubmarine();
     movement();

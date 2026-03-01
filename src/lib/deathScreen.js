@@ -11,19 +11,41 @@ export function showDeathScreen(reason) {
     if (gameState.isGameOver) return;
     gameState.isGameOver = true;
 
-    const overlay = k.add([
-        k.rect(k.width(), k.height()),
-        k.color(0, 0, 0),
-        k.opacity(0),
+    // Stop background music
+    if (k.bgMusic) k.bgMusic.paused = true;
+
+    // Play Game Over sound
+    k.play("gameover");
+
+    // Show Parin image during game over sequence
+    // Use try/catch or safety check if sprite not loaded yet? 
+    // Kaplay usually handles missing sprites gracefully (rendering nothing or a placeholder).
+    const parin = k.add([
+        k.sprite("parin"),
+        k.pos(k.center()),
+        k.anchor("center"),
+        k.z(2000), // On top of everything
         k.fixed(),
-        k.z(999), 
+        k.scale(0.5), // Adjust scale if needed
     ]);
 
-    k.tween(0, 1, 1, (val) => overlay.opacity = val, k.easings.linear);
+    // Wait for sound/image (e.g., 3 seconds) then show UI
+    k.wait(3, () => {
+        k.destroy(parin);
 
-    k.wait(1.5, () => {
-        k.add([
-            k.text("You have been lost at sea", { 
+        const overlay = k.add([
+            k.rect(k.width(), k.height()),
+            k.color(0, 0, 0),
+            k.opacity(0),
+            k.fixed(),
+            k.z(999), 
+        ]);
+
+        k.tween(0, 1, 1, (val) => overlay.opacity = val, k.easings.linear);
+
+        k.wait(1.0, () => {
+            k.add([
+                k.text("You have been lost at sea", { 
                 size: 48, 
                 width: k.width() - 100, 
                 align: "center",
@@ -110,5 +132,6 @@ export function showDeathScreen(reason) {
             k.fixed(),
             k.z(1000),
         ]);
-    });
+    }); // Close inner wait (1.0)
+    }); // Close outer wait (3)
 }

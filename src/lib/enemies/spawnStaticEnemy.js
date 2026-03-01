@@ -20,6 +20,8 @@ export function spawnStaticEnemy() {
     enemy.onCollide("submarine", (sub) => {
         const explosionPos = enemy.pos.clone();
         
+        k.play("explosion"); // Explosion SFX
+
         k.destroy(enemy);
         k.destroy(sub);
         
