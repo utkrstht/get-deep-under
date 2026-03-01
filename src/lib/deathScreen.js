@@ -74,5 +74,41 @@ export function showDeathScreen(reason) {
             k.fixed(),
             k.z(1000),
         ]);
+
+        const menuBtn = k.add([
+            k.rect(260, 60, { radius: 10 }),
+            k.pos(k.center().x, k.center().y + 160),
+            k.anchor("center"),
+            k.color(0, 0, 0),
+            k.area(),
+            "menuBtn",
+            k.fixed(),
+            k.z(1001), 
+        ]);
+        
+        menuBtn.add([
+             k.text("Return to Menu", { size: 28, font: "Pixelify Sans" }),
+             k.anchor("center"),
+             k.color(255, 255, 255),
+        ]);
+        
+        menuBtn.onClick(() => k.go("menu"));
+        
+        k.onHover("menuBtn", (b) => b.color = k.rgb(50, 50, 50));
+        k.onHoverEnd("menuBtn", (b) => b.color = k.rgb(0, 0, 0));
+
+        // Depth at bottom
+        k.add([
+            k.text(`Depth reached: ${Math.floor(gameState.level)} ft`, {
+                size: 32,
+                font: "Pixelify Sans",
+                align: "center",
+            }),
+            k.pos(k.center().x, k.height() - 50),
+            k.anchor("center"),
+            k.color(255, 255, 255),
+            k.fixed(),
+            k.z(1000),
+        ]);
     });
 }

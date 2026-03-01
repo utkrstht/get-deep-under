@@ -73,7 +73,7 @@ export function weapon() {
             }
         ]);
 
-        k.wait(3, () => {
+        k.wait(1.5, () => {
             explode(bomb);
         });
 
@@ -97,6 +97,7 @@ function explode(bombObj) {
     const explosionPos = bombObj.pos;
     k.destroy(bombObj);
     
+    // Explosion animation sprite
     const explosion = k.add([
         k.pos(explosionPos),
         k.anchor("center"),
@@ -106,31 +107,7 @@ function explode(bombObj) {
         "explosion" 
     ]);
     
-    const enemies = k.get("enemy");
-    for (const enemy of enemies) {
-        if (explosion.pos.dist(enemy.pos) < 175) {
-            k.destroy(enemy);
-            
-            const chainExplosion = k.add([
-                k.pos(enemy.pos),
-                k.anchor("center"),
-                k.sprite("explosion_1"),
-                k.scale(2),
-            ]);
-            let f = 1;
-            const ca = k.loop(0.1, () => {
-                f++;
-                if (f <= 10) chainExplosion.use(k.sprite(`explosion_${f}`));
-                else { ca.cancel(); k.destroy(chainExplosion); }
-            });
-        }
-    }
-
-    if (submarine && submarine.exists() && explosion.pos.dist(submarine.pos) < 175) {
-        k.destroy(submarine);
-        showDeathScreen("bomb");
-    }
-
+    // Animate the main explosion
     let frame = 1;
     const cancelAnim = k.loop(0.1, () => {
         frame++;
@@ -141,4 +118,59 @@ function explode(bombObj) {
             k.destroy(explosion);
         }
     });
+
+    let hitCount = 0;
+    const enemies = k.get("enemy");
+    
+    for (const enemy of enemies) {
+        if (explosion.pos.dist(enemy.pos) < 175) {
+            hitCount++;
+            k.destroy(enemy);
+            
+            // Chain explosion visual
+            const chainExplosion = k.add([
+                k.pos(enemy.pos),
+                k.anchor("center"),
+                k.sprite("explosion_1"),
+                k.scale(2),
+            ]);
+            
+            let f = 1;
+            const ca = k.loop(0.1, () => {
+                f++;
+                if (f <= 10) chainExplosion.use(k.sprite(`explosion_${f}`));
+                else { ca.cancel(); k.destroy(chainExplosion); }
+            });
+        }
+    }
+
+    // HIT / MISS Feedback
+    if (hitCount > 0) {
+        k.add([
+            k.text("HIT!", { size: 32, font: "Pixelify Sans" }),
+            k.pos(explosionPos.sub(0, 50)),
+            k.anchor("center"),
+            k.color(0, 255, 0),
+            k.move(k.vec2(0, -50), 40),
+            k.opacity(1),
+            k.lifespan(1, { fade: 0.5 }),
+            k.z(200),
+        ]);
+    } else {
+        k.add([
+            k.text("MISS!", { size: 32, font: "Pixelify Sans" }),
+            k.pos(explosionPos.sub(0, 50)),
+            k.anchor("center"),
+            k.color(255, 0, 0),
+            k.move(k.vec2(0, -50), 40),
+            k.opacity(1),
+            k.lifespan(1, { fade: 0.5 }),
+            k.z(200),
+        ]);
+    }
+
+    if (submarine && submarine.exists() && explosion.pos.dist(submarine.pos) < 175) {
+        k.destroy(submarine);
+        showDeathScreen("bomb");
+    }
 }

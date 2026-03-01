@@ -2,7 +2,7 @@ import { k } from "../main.js";
 import { gameState } from "../store.js";
 
 function background() {
-    k.loadSprite("bg", "sprites/bg.jpg"); 
+    k.loadSprite("bg", "sprites/bg.png"); 
     
     k.add([
         k.sprite("bg"),
