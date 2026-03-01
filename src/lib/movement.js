@@ -11,12 +11,12 @@ export function movement() {
     k.onUpdate(() => {
         let moving = false;
 
-        if (k.isKeyDown("left")) {
+        if (k.isKeyDown("left") || k.isKeyDown("a")) {
             velX -= acceleration * k.dt();
             moving = true;
         }
 
-        if (k.isKeyDown("right")) {
+        if (k.isKeyDown("right") || k.isKeyDown("d")) {
             velX += acceleration * k.dt();
             moving = true;
         }
@@ -36,7 +36,7 @@ export function movement() {
 
         submarine.move(velX, 0);
 
-        if (submarine.pos.x < 50) submarine.pos.x = 50; 
+        if (submarine.pos.x < 50) submarine.pos.x = 50;
         if (submarine.pos.x > k.width() - 50) submarine.pos.x = k.width() - 50;
     });
 }

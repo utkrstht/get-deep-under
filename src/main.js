@@ -6,10 +6,8 @@ import { createSubmarine } from "./lib/submarine.js";
 import { movement } from "./lib/movement.js";
 import { enemySpawningTick } from "./lib/enemies/enemySpawningTick.js";
 import { loadHUD } from "./lib/hud.js";
-import { weapon } from "./lib/weapon.js";
 createSubmarine();
 movement();
-weapon();
 enemySpawningTick();
 loadHUD();
 
