@@ -11,25 +11,23 @@ export function showDeathScreen(reason) {
     if (gameState.isGameOver) return;
     gameState.isGameOver = true;
 
-    // Darken screen (fade in)
     const overlay = k.add([
         k.rect(k.width(), k.height()),
         k.color(0, 0, 0),
         k.opacity(0),
         k.fixed(),
-        k.z(999), // High z-index to cover everything
+        k.z(999), 
     ]);
 
     k.tween(0, 1, 1, (val) => overlay.opacity = val, k.easings.linear);
 
     k.wait(1.5, () => {
-        // Main text
         k.add([
             k.text("You have been lost at sea", { 
                 size: 48, 
                 width: k.width() - 100, 
                 align: "center",
-                font: "Pixelify Sans" // Using the requested font
+                font: "Pixelify Sans" 
             }),
             k.pos(k.center().x, k.center().y - 80),
             k.anchor("center"),
@@ -38,13 +36,16 @@ export function showDeathScreen(reason) {
             k.z(1000),
         ]);
 
-        // Reason text
         let reasonText = "";
         if (reason === "mine") {
             reasonText = "You collided with a sea mine";
         } else if (reason === "whale") {
             reasonText = "A Whale attacked you with sonar, destroying your submarine";
+        } else if (reason === "bomb") {
+            reasonText = "You were too close to your own bomb";
         }
+
+        const tipText = reason === "bomb" ? "Try to stay away from your bomb after throwing it!" : tips[Math.floor(Math.random() * tips.length)];
 
         k.add([
             k.text(reasonText, { 
@@ -60,10 +61,8 @@ export function showDeathScreen(reason) {
             k.z(1000),
         ]);
 
-        // Tip text
-        const randomTip = tips[Math.floor(Math.random() * tips.length)];
         k.add([
-            k.text(`Tip: ${randomTip}`, { 
+            k.text(`Tip: ${tipText}`, { 
                 size: 18, 
                 width: k.width() - 150, 
                 align: "center",
