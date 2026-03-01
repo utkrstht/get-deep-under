@@ -14,7 +14,7 @@ export function enemySpawningTick() {
 
         if (cooldown > 0) return;
         if (Math.random() * 100 < gameState.level) {
-            cooldown = 5;
+            cooldown = 2;
 
             if (Math.random() < 0.5) {
                 spawnStaticEnemy();

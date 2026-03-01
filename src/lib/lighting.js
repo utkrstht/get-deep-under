@@ -1,8 +1,13 @@
 import { k } from "../main.js";
 import { submarine } from "./submarine.js";
 
-export function loadLighting() {
-    k.loadShader("flashlight", null, `
+export function loadLighting() {}
+
+export function loadLightinge() {
+    k.loadShader(
+        "flashlight",
+        null,
+        `
         uniform vec2 u_pos;
         uniform vec2 u_mouse;
         uniform float u_radius;
@@ -42,16 +47,17 @@ export function loadLighting() {
             // Make the darkness very dark (0.98 alpha), light fully transparent (0.0 alpha)
             return vec4(0.0, 0.0, 0.0, 0.98 - (intensity * 0.98));
         }
-    `);
+    `,
+    );
 
     const overlay = k.add([
         k.rect(k.width(), k.height()),
         k.color(0, 0, 0),
         k.pos(0, 0),
         k.fixed(),
-        k.z(900), 
+        k.z(900),
         k.shader("flashlight"),
-        "flashlight_overlay"
+        "flashlight_overlay",
     ]);
 
     overlay.onUpdate(() => {
@@ -60,18 +66,18 @@ export function loadLighting() {
         if (!overlay.uniform) overlay.uniform = {};
 
         const mousePos = k.mousePos();
-        const subPos = submarine.screenPos(); 
-        
+        const subPos = submarine.screenPos();
+
         const dir = mousePos.sub(subPos);
         const rad = Math.atan2(dir.y, dir.x);
-        
+
         const ONE_RADIAN = 57.2958;
-        const widthInRadians = 45 / ONE_RADIAN; 
+        const widthInRadians = 45 / ONE_RADIAN;
 
         overlay.uniform["u_pos"] = subPos;
         overlay.uniform["u_mouse"] = mousePos;
-        overlay.uniform["u_radius"] = 400.0; 
+        overlay.uniform["u_radius"] = 400.0;
         overlay.uniform["u_angle"] = rad;
-        overlay.uniform["u_width"] = widthInRadians; 
+        overlay.uniform["u_width"] = widthInRadians;
     });
 }

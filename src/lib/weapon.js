@@ -6,7 +6,7 @@ export function weapon() {
     k.loadSprite("submarine_bomb", "sprites/submarine_bomb.png"); 
     
     let cooldownTimer = 0;
-    const COOLDOWN_TIME = 5;
+    const COOLDOWN_TIME = 1;
 
     const uiX = k.width() / 2;
     const uiY = k.height() - 50;
@@ -46,7 +46,7 @@ export function weapon() {
         }
     });
 
-    k.onKeyPress("e", () => {
+    k.onClick(() => {
         if (gameState.isGameOver) return;
         if (!submarine) return;
         if (cooldownTimer > 0) return;
