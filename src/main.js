@@ -15,5 +15,5 @@ loadHUD();
 
 import { gameState } from "./store.js";
 k.onUpdate(() => {
-    // gameState.level += 5 * k.dt();
+    gameState.level += 5 * k.dt();
 });
